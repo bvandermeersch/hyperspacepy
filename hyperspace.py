@@ -1,5 +1,7 @@
 import requests
 
+#todo need to add API passowrd
+
 class Hyperspace:
     address = 'http://localhost'
     port = 5580
@@ -83,12 +85,13 @@ class Hyperspace:
         """Returns information about the consensus set."""
         return self.http_get('/consensus')
 
-    def validate_transactionset(self, transactionset):
+ #todo  
+ # def validate_transactionset(self, transactionset):
         """Validates a set of transactions using the current utxo set.
         """
         #TODO: I'm not really sure what this does. Attempting to use this
         #method just returns the response "Method Not Allowed"
-        return self.http_post('/consensus/validate/transactionset', transactionset)
+        #return self.http_post('/consensus/validate/transactionset', transactionset)
 
     """Gateway API"""
 
