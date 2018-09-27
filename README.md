@@ -4,6 +4,10 @@ Hyperspace API bindings for Python 3
 
 This is a WIP
 
+## Hyperspace API Info
+
+https://github.com/HyperspaceApp/Hyperspace/blob/master/doc/API.md
+
 ## Dependancies
 
 `pip install requests`
