@@ -6,6 +6,7 @@ class Hyperspace:
     port = 5580
     headers = {
         'User-Agent': 'Hyperspace-Agent',
+		'Authorization': 'Basic Omh5cGVyc3BhY2U=',
 	}
 
     def __init__(self, address='http://localhost', port=5580):
@@ -28,7 +29,7 @@ class Hyperspace:
         """Helper HTTP GET request function that returns a decoded json dict.
         """
         url = self.address + ':' + str(self.port) + path
-        resp = requests.get(url, headers=self.headers, files=data, auth=('', apipassword))
+        resp = requests.get(url, headers=self.headers, files=data)
         try:
             resp.raise_for_status()
         except requests.exceptions.HTTPError:
@@ -53,7 +54,7 @@ class Hyperspace:
         Sends HTTP POST request to given path with given payload.
         """
         url = self.address + ':' + str(self.port) + path
-        resp = requests.post(url, headers=self.headers, data=data, auth=('', apipassword))
+        resp = requests.post(url, headers=self.headers, data=data)
         try:
             resp.raise_for_status()
         except requests.exceptions.HTTPError:
