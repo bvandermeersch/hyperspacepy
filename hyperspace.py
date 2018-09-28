@@ -1,13 +1,11 @@
 import requests
 
-#todo need to add API passowrd
-
 class Hyperspace:
+	api_password='hyperspace'
     address = 'http://localhost'
     port = 5580
     headers = {
         'User-Agent': 'Hyperspace-Agent',
-		'ApiPassword': 'hyperspace',    
 	}
 
     def __init__(self, address='http://localhost', port=5580):
@@ -30,7 +28,7 @@ class Hyperspace:
         """Helper HTTP GET request function that returns a decoded json dict.
         """
         url = self.address + ':' + str(self.port) + path
-        resp = requests.get(url, headers=self.headers, files=data)
+        resp = requests.get(url, headers=self.headers, files=data, auth=('', apipassword))
         try:
             resp.raise_for_status()
         except requests.exceptions.HTTPError:
@@ -55,7 +53,7 @@ class Hyperspace:
         Sends HTTP POST request to given path with given payload.
         """
         url = self.address + ':' + str(self.port) + path
-        resp = requests.post(url, headers=self.headers, data=data)
+        resp = requests.post(url, headers=self.headers, data=data, auth=('', apipassword))
         try:
             resp.raise_for_status()
         except requests.exceptions.HTTPError:
@@ -85,14 +83,6 @@ class Hyperspace:
     def get_consensus(self):
         """Returns information about the consensus set."""
         return self.http_get('/consensus')
-
- #todo  
- # def validate_transactionset(self, transactionset):
-        """Validates a set of transactions using the current utxo set.
-        """
-        #TODO: I'm not really sure what this does. Attempting to use this
-        #method just returns the response "Method Not Allowed"
-        #return self.http_post('/consensus/validate/transactionset', transactionset)
 
     """Gateway API"""
 
@@ -249,7 +239,7 @@ class Hyperspace:
     """Wallet API"""
 
     def get_wallet(self):
-        """Returns information aout the wallet."""
+        """Returns information about the wallet."""
         return self.http_get('/wallet')
 
     def get_address(self):
@@ -261,8 +251,7 @@ class Hyperspace:
         return self.http_get('/wallet/addresses').get('addresses')
 
     def change_password(self, encryptionpassword, newpassword):
-        """Changes the wallet's encryption key
-        """
+        """Changes the wallet's encryption key"""
         payload = {'encryptionpassword': encryptionpassword,
                    'newpassword': newpassword}
         return self.http_post('/wallet/changepassword', payload)
@@ -273,9 +262,7 @@ class Hyperspace:
         return self.http_get('/wallet/backup', payload)
 
     def wallet_init(self, encryptionpassword=None):
-        """Initializes a new wallet.
-        Returns the wallet seed.
-        """
+        """Initializes a new wallet. Returns the wallet seed."""
         payload = None
         if encryptionpassword is not None:
             payload = {'encryptionpassword': encryptionpassword}
@@ -300,14 +287,14 @@ class Hyperspace:
         return self.http_get('/wallet/seeds', payload)
 
 	#TODO    
-	#def sign(self, txn, tosign): seed
+	#def sign(self, txn, tosign):
         """Sends hyperspace coins to an address or set of addresses
         Returns list of transaction IDs
         """
     #    payload = {'transaction': transaction, 'tosign': tosign}
     #    return self.http_post('/wallet/sign', payload).get('transaction')
     
-	def sweep_seed(self, dictionary='english')
+	def sweep_seed(self, dictionary='english'):
 		"""Scan the blockchain for outputs belonging to a seed and send
 		them to an address owned by the wallet.
 		"""
@@ -347,19 +334,11 @@ class Hyperspace:
         payload = {'encryptionpassword': encryptionpassword}
         return self.http_post('/wallet/unlock', payload)
 
-    #todo add unlock conditions
-
-    #todo add unlock conditions :addr
-
-    #todo add wallet unspent
-
-
     def verify_address(self, address):
         """Returns if the given address is valid
         """
         return self.http_get('/wallet/verify/address/' + address).get('Valid')
 
-   #todo add wallet watch
 
 class HyperspaceError(Exception):
     """Exception raised when errors returned from hyperspace daemon
