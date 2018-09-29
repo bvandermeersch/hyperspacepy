@@ -1,13 +1,12 @@
 import requests
+from dotenv import load_dotenv
+load_dotenv()
 
 class Hyperspace:
-	api_password='hyperspace'
-    address = 'http://localhost'
-    port = 5580
-    headers = {
-        'User-Agent': 'Hyperspace-Agent',
-		'Authorization': 'Basic Omh5cGVyc3BhY2U=',
-	}
+	api_password = os.getenv("API_PASSWORD")
+    address = os.getenv("ADDRESS")
+    port = os.getenv("PORT")
+    headers = os.getenv("HEADERS")
 
     def __init__(self, address='http://localhost', port=5580):
         self.set_address(address)
