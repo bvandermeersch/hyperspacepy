@@ -10,7 +10,7 @@ https://github.com/HyperspaceApp/Hyperspace/blob/master/doc/API.md
 
 ## Dependancies
 
-`pip install requests`
+`pip install -r requirements.txt`
 
 ## Example usage
 
